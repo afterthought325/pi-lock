@@ -5,7 +5,7 @@ from classes.classEntradaLog import *
 import classes.classErrorLog as errorLog
 import configuration as conf
 #from classes.classKeypad import *
-if MFRC522
+if MFRC
     import signal
     import MFRC522
     continue_reading = True

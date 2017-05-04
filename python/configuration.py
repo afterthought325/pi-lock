@@ -16,6 +16,7 @@ PERMISSION_BLACKLIST = 2
 PERMISSION_PIN = 3
 YES = 1
 NO = 0
+MFRC = 1
 
 entradaTable = 'seguridad_entrada'
 permisoTable = 'seguridad_permisos'
