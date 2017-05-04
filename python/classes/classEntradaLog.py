@@ -1,6 +1,6 @@
 import json
 import datetime
-import piLock.configuration as conf
+import configuration as conf
 import classErrorLog as errorLog
 import sys
 

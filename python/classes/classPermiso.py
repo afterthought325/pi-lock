@@ -1,5 +1,5 @@
 import sys
-import piLock.configuration as conf
+import configuration as conf
 import classErrorLog as errorLog
 
 

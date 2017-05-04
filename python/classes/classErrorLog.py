@@ -1,6 +1,6 @@
 import linecache
 import datetime
-import piLock.configuration as conf
+import configuration as conf
 import os
 import sys
 
