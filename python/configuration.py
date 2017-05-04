@@ -3,6 +3,7 @@ import sqlite3
 import serial
 import classes.classErrorLog as errorLog
 import sys
+import RPIO
 
 
 rootPath = os.path.dirname(os.path.abspath(__file__))
