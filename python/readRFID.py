@@ -5,6 +5,27 @@ from classes.classEntradaLog import *
 import classes.classErrorLog as errorLog
 import configuration as conf
 #from classes.classKeypad import *
+if MFRC522
+    import signal
+    import MFRC522
+    continue_reading = True
+
+    # Capture SIGINT for cleanup when the script is aborted
+    def end_read(signal,frame):
+        global continue_reading
+        print "Ctrl+C captured, ending read."
+        continue_reading = False
+        GPIO.cleanup()
+
+    # Hook the SIGINT
+    signal.signal(signal.SIGINT, end_read)
+
+    # Create an object of the class MFRC522
+    MIFAREReader = MFRC522.MFRC522()
+
+    # Welcome message
+    print "Welcome to the MFRC522 data read example"
+    print "Press Ctrl-C to stop."
 
 
 ########################################################################################################################
@@ -100,23 +121,38 @@ def findTag(inputTag):
 
 ########################################################################################################################
 
-conf.ser.open()
+#conf.ser.open()
 
-if conf.ser.isOpen():
-    print "Open: " + conf.ser.portstr
+#if conf.ser.isOpen():
+#    print "Open: " + conf.ser.portstr
 
 
 def readCard():
     global errorCount
     try:
-        LED("blue")
+#        LED("blue")
         while True:
-            conf.ser.flushInput()
+            # Scan for cards    
+            (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+            # If a card is found
+            if status == MIFAREReader.MI_OK:
+                print "Card detected"
+            
+            # Get the UID of the card
+            (status,uid) = MIFAREReader.MFRC522_Anticoll()
+
+            # If we have the UID, continue
+            if status == MIFAREReader.MI_OK:
+
+#            conf.ser.flushInput()
             LED("blue")
-            rfidData = conf.ser.readline().strip()
-            print "Line: "
+#            rfidData = conf.ser.readline().strip()
+            #print "Line: "
             if len(rfidData) > 0:
-                rfidData = rfidData[1:13]
+                #rfidData = rfidData[1:13]
+                rfidData =  uid
+                print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
                 print "Card Scanned: ", rfidData
                 print findTag(rfidData)
 
@@ -124,7 +160,7 @@ def readCard():
         errorLog.classErrorLog(sys.exc_info())
 
     finally:
-        conf.ser.close()
+#        conf.ser.close()
         conf.db.close()
         RPIO.cleanup()
 
